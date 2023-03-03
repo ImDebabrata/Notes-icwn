@@ -35,7 +35,7 @@ const Input = ({ setNotes, notes }) => {
 
     axios
       .post(`${process.env.REACT_APP_API}/note/add`, field)
-      .then((res) => setNotes([...notes, field]))
+      .then((res) => setNotes([...notes, res.data.note]))
       .catch((err) => console.log(err));
     setField(initialField);
   };
