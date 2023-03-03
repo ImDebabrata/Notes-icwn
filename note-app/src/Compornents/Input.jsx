@@ -9,7 +9,7 @@ const initialField = {
   time: "",
 };
 
-const Input = ({ setNotes, notes }) => {
+const Input = ({ setNotes, notes, toast, setToast }) => {
   const [field, setField] = useState(initialField);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -37,9 +37,21 @@ const Input = ({ setNotes, notes }) => {
     setIsLoading(true);
     axios
       .post(`${process.env.REACT_APP_API}/note/add`, field)
-      .then((res) => setNotes([...notes, res.data.note]))
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false));
+      .then((res) => {
+        setToast({ message: res.data.res, type: false });
+        setNotes([...notes, res.data.note]);
+      })
+      .catch((err) => {
+        setToast({ message: "Something went wrong", type: true });
+
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setTimeout(() => {
+          setToast({ message: "", type: null });
+        }, 1000);
+      });
     setField(initialField);
   };
 

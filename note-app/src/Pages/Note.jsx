@@ -4,19 +4,35 @@ import styled from "styled-components";
 import Input from "../Compornents/Input";
 import NoteBox from "../Compornents/NoteBox";
 import { ImSpinner5 } from "react-icons/im";
+import Toast from "../Compornents/Toast";
 
 const Note = () => {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({
+    message: "",
+    type: null,
+  });
 
   const handleDelete = (id, loading) => {
     loading(true);
     const notesAfterDelete = notes.filter((item) => item._id !== id);
     axios
       .delete(`${process.env.REACT_APP_API}/note/delete/${id}`)
-      .then((res) => setNotes(notesAfterDelete))
-      .catch((err) => console.log(err))
-      .finally(() => loading(false));
+      .then((res) => {
+        setToast({ message: res.data.res, type: false });
+        setNotes(notesAfterDelete);
+      })
+      .catch((err) => {
+        setToast({ message: "Something went wrong", type: true });
+        console.log(err);
+      })
+      .finally(() => {
+        loading(false);
+        setTimeout(() => {
+          setToast({ message: "", type: null });
+        }, 3000);
+      });
   };
 
   useEffect(() => {
@@ -28,20 +44,28 @@ const Note = () => {
   }, []);
 
   return (
-    <Container>
-      <Input setNotes={setNotes} notes={notes} />
-      {loading ? (
-        <ImSpinner5 />
-      ) : (
-        <NoteContainer>
-          {notes.map((item) => {
-            return (
-              <NoteBox key={item._id} {...item} handleDelete={handleDelete} />
-            );
-          })}
-        </NoteContainer>
-      )}
-    </Container>
+    <>
+      <Toast message={toast.message} type={toast.type} />
+      <Container>
+        <Input
+          setNotes={setNotes}
+          notes={notes}
+          toast={toast}
+          setToast={setToast}
+        />
+        {loading ? (
+          <ImSpinner5 />
+        ) : (
+          <NoteContainer>
+            {notes.map((item) => {
+              return (
+                <NoteBox key={item._id} {...item} handleDelete={handleDelete} />
+              );
+            })}
+          </NoteContainer>
+        )}
+      </Container>
+    </>
   );
 };
 
