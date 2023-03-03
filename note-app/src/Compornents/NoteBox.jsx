@@ -2,13 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import { MdDelete } from "react-icons/md";
 
-const NoteBox = ({ title, note, time, index, handleDelete }) => {
+const NoteBox = ({ title, note, time, handleDelete, _id }) => {
   return (
     <Container>
       <Heading>{title}</Heading>
       <Text>{note}</Text>
       <DateTime>{time}</DateTime>
-      <MdDelete onClick={() => handleDelete(index)} />
+      <MdDelete onClick={() => handleDelete(_id)} />
     </Container>
   );
 };

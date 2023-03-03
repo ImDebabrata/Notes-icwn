@@ -6,14 +6,12 @@ import NoteBox from "../Compornents/NoteBox";
 
 const Note = () => {
   const [notes, setNotes] = useState([]);
-  console.log("notes:", notes);
-  const handleDelete = (index) => {
-    // console.log(index);
-    const notesAfterDelete = notes.filter(
-      (_, deleteIndx) => deleteIndx !== index
-    );
-    // console.log("notesAfterDelete:", notesAfterDelete);
-    setNotes(notesAfterDelete);
+
+  const handleDelete = (id) => {
+    const notesAfterDelete = notes.filter((item) => item._id !== id);
+    axios
+      .delete(`${process.env.REACT_APP_API}/note/delete/${id}`)
+      .then((res) => setNotes(notesAfterDelete));
   };
 
   useEffect(() => {
@@ -26,14 +24,14 @@ const Note = () => {
     <div>
       <Input setNotes={setNotes} notes={notes} />
       <NoteContainer>
-        {notes.map((item, index) => {
+        {notes.map((item) => {
           return (
             <NoteBox
-              key={index}
-              title={item.title}
-              note={item.note}
-              time={item.time}
-              index={index}
+              key={item._id}
+              // title={item.title}
+              // note={item.note}
+              // time={item.time}
+              {...item}
               handleDelete={handleDelete}
             />
           );

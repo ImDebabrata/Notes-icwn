@@ -16,9 +16,23 @@ noteRouter.post("/add", async (req, res) => {
   try {
     const addNote = new NoteModel({ title, note, time });
     await addNote.save();
-    res.send({ res: "Added Note" });
+    res.send({ res: "Added Note", note: addNote });
   } catch (err) {
     res.send(err);
+  }
+});
+
+noteRouter.delete("/delete/:id", async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    res.status(404).send({ res: "Invalid Request" });
+    return;
+  }
+  try {
+    await NoteModel.findByIdAndDelete({ _id: id });
+    res.send({ res: "Deleted Successfully" });
+  } catch (err) {
+    res.send({ err });
   }
 });
 
