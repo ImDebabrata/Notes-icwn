@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import styled from "styled-components";
 import Input from "../Compornents/Input";
 import NoteBox from "../Compornents/NoteBox";
@@ -14,6 +15,12 @@ const Note = () => {
     // console.log("notesAfterDelete:", notesAfterDelete);
     setNotes(notesAfterDelete);
   };
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API}/note/allnotes`)
+      .then((res) => setNotes(res.data.res));
+  }, []);
 
   return (
     <div>
