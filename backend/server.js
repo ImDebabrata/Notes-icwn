@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const { connection } = require("./config/db");
+const { noteRouter } = require("./routes/note.route");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -11,6 +12,8 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("Welcome to the Note app server");
 });
+
+app.use("/note", noteRouter);
 
 app.listen(PORT, async () => {
   try {

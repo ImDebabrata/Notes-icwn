@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 const initialField = {
   title: "",
@@ -31,7 +32,11 @@ const Input = ({ setNotes, notes }) => {
     // setField((prev) => ({ ...prev, time: currentDateTime }));
 
     field.time = currentDateTime;
-    setNotes([...notes, field]);
+
+    axios
+      .post(`${process.env.REACT_APP_API}/note/add`, field)
+      .then((res) => setNotes([...notes, field]))
+      .catch((err) => console.log(err));
     setField(initialField);
   };
 
