@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { MdDelete } from "react-icons/md";
+import { CgSpinnerTwo } from "react-icons/cg";
 
 const NoteBox = ({ title, note, time, handleDelete, _id }) => {
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <Container>
       <Heading>{title}</Heading>
       <Text>{note}</Text>
       <DateTime>{time}</DateTime>
-      <MdDelete onClick={() => handleDelete(_id)} />
+      {isLoading ? (
+        <CgSpinnerTwo className="loading" />
+      ) : (
+        <MdDelete onClick={() => handleDelete(_id, setIsLoading)} />
+      )}
     </Container>
   );
 };
@@ -29,6 +35,18 @@ const Container = styled.div`
     font-size: 1.5rem;
     cursor: pointer;
     color: red;
+  }
+  & > svg.loading {
+    color: #4e6e81 !important;
+    animation: rotation 2s infinite linear;
+    @keyframes rotation {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(359deg);
+      }
+    }
   }
 `;
 

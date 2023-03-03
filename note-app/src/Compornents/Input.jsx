@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { CgSpinnerTwo } from "react-icons/cg";
 
 const initialField = {
   title: "",
@@ -10,6 +11,7 @@ const initialField = {
 
 const Input = ({ setNotes, notes }) => {
   const [field, setField] = useState(initialField);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,11 +34,12 @@ const Input = ({ setNotes, notes }) => {
     // setField((prev) => ({ ...prev, time: currentDateTime }));
 
     field.time = currentDateTime;
-
+    setIsLoading(true);
     axios
       .post(`${process.env.REACT_APP_API}/note/add`, field)
       .then((res) => setNotes([...notes, res.data.note]))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
     setField(initialField);
   };
 
@@ -69,7 +72,7 @@ const Input = ({ setNotes, notes }) => {
             required
           />
         </InputContainer>
-        <Button type="submit">Add</Button>
+        <Button type="submit">{isLoading ? <CgSpinnerTwo /> : "Add"}</Button>
       </form>
     </Container>
   );
@@ -129,6 +132,18 @@ const Button = styled.button`
   border-radius: 4px;
   width: 270px;
   cursor: pointer;
+  & > svg {
+    scale: 2;
+    animation: rotation 2s infinite linear;
+    @keyframes rotation {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(359deg);
+      }
+    }
+  }
 `;
 
 export default Input;
