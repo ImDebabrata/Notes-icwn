@@ -21,6 +21,8 @@ const NoteBox = ({ title, note, time, handleDelete, _id }) => {
 
 const Container = styled.div`
   /* width: 250px; */
+  max-width: calc(100vw / 4);
+  height: fit-content;
   position: relative;
   padding: 5px 5px 15px 5px;
   background-color: white;
@@ -47,6 +49,16 @@ const Container = styled.div`
         transform: rotate(359deg);
       }
     }
+  }
+  & > p {
+    /* word-wrap: break-word; */
+    overflow-wrap: break-word;
+  }
+  @media screen and (max-width: 765px) {
+    max-width: calc(100vw / 3);
+  }
+  @media screen and (max-width: 575px) {
+    max-width: calc(100vw / 2);
   }
 `;
 

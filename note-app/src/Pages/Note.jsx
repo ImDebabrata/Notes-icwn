@@ -90,7 +90,7 @@ const NoteContainer = styled.div`
   grid-template-columns: repeat(4, 1fr);
   padding: 15px;
   gap: 10px;
-  margin: 30px 0;
+  margin: 30px 0 0 0;
   @media screen and (max-width: 765px) {
     grid-template-columns: repeat(3, 1fr);
   }
