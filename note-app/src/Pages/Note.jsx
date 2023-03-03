@@ -55,7 +55,7 @@ const Note = () => {
         />
         {loading ? (
           <ImSpinner5 />
-        ) : (
+        ) : notes.length > 0 ? (
           <NoteContainer>
             {notes.map((item) => {
               return (
@@ -63,6 +63,8 @@ const Note = () => {
               );
             })}
           </NoteContainer>
+        ) : (
+          <Heading>Notes is empty!</Heading>
         )}
       </Container>
     </>
@@ -97,6 +99,10 @@ const NoteContainer = styled.div`
   @media screen and (max-width: 575px) {
     grid-template-columns: repeat(2, 1fr);
   }
+`;
+
+const Heading = styled.h2`
+  margin-top: 30px;
 `;
 
 export default Note;

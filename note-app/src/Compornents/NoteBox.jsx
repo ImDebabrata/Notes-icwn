@@ -24,7 +24,7 @@ const Container = styled.div`
   max-width: calc(100vw / 4);
   height: fit-content;
   position: relative;
-  padding: 5px 5px 15px 5px;
+  padding: 15px 15px 25px 15px;
   background-color: white;
   /* border: 1px solid red; */
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
@@ -53,6 +53,7 @@ const Container = styled.div`
   & > p {
     /* word-wrap: break-word; */
     overflow-wrap: break-word;
+    margin: 20px 0;
   }
   @media screen and (max-width: 765px) {
     max-width: calc(100vw / 3);
